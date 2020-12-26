@@ -1,0 +1,35 @@
+.ToDo{
+    width: 400px;
+    margin: 0 auto;
+}  
+.ToDo input{
+    outline: none;
+    padding: 10px;
+    width: 85%;
+    border-radius: 7px 0 0 7px;
+    border: 1px solid #a09f9f;
+}
+.ToDo button{
+    padding: 11px;
+    border: none;
+    background: green;
+    color: white;
+    border-radius: 0 7px 7px 0;
+    outline: none;
+    cursor: pointer;
+}
+.spanRed{
+    margin-left: 10px;
+    color:red;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 10px;
+}
+li{
+    border-bottom: 1px solid rgb(218, 218, 218);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
