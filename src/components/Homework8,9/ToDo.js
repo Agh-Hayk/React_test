@@ -1,20 +1,26 @@
 import React,{Component} from 'react'
 import style from './ToDo.module.css'
+import idGenerator from '../../helpers/idGenerator'
+import {Container,Row,Col} from 'react-bootstrap'
 
 class ToDo extends Component{
 
     state = {
-        arr:[],
+        task:[],
         inpVal:''
     };
    
 
     addLi = () => {
-        const inpVal = this.state.inpVal
-        const arr = [...this.state.arr]
-        arr.push(inpVal)
+        const inpVal = this.state.inpVal.trim()
+        if(!inpVal){return}
+        const newTask = {
+            _id:idGenerator(),
+            title:inpVal
+        } 
+        const task = [...this.state.task, newTask]
         this.setState({
-            arr,
+            task,
             inpVal:''
         })
     } 
@@ -23,35 +29,41 @@ class ToDo extends Component{
             inpVal:e.target.value
         })
     }
-    deleteLi = (e) => {
-        const arr = [...this.state.arr]
-        arr.map((item,index)=>{
-            if(e.target.dataset.name === index.toString()){
-                arr.splice(index,1)
-            }
-            return arr
-        })
+    deleteTask = (taskId) => {
+        const newTask = this.state.task.filter((task)=> taskId !== task._id)
         this.setState({
-            arr
+            task:newTask
         })
     }
     
     render(){   
-        const {arr} = this.state
+        const {task} = this.state;
+        const item = task.map((item,index)=>{
+            return (
+                <Col key={item._id} xs={12} sm={6} md={4} lg={3} xl={3}>
+                    <div className={style.new_item}>
+                        <h3>{item.title}</h3>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed, porro?</p>
+                        <button className={style.spanRed} data-name={index} onClick={()=>this.deleteTask(item._id)}>x</button>
+                    </div>
+                </Col>
+            )
+        })
         return(
             <div className={style.ToDo}>
-                <input onChange={this.handleInp} type="text" placeholder="text" value={this.state.inpVal}/>
-                <button onClick={this.addLi}>ok</button>
-                <ol>
-                    {arr.map((item,index)=>{
-                        return (
-                        <li key={index}>
-                            {item}
-                            <span className={style.spanRed} data-name={index} onClick={this.deleteLi}>x</span>
-                        </li>
-                        )
-                    })}
-                </ol>
+                  <Container>
+                    <Row className="justify-content-center mb-3">
+                      <Col xs={12} sm={12} md={12} lg={6} xl={6}>
+                          <div className={style.searchItem}>
+                            <input onChange={this.handleInp} type="text" placeholder="text" value={this.state.inpVal}/>
+                            <button onClick={this.addLi}>ok</button>
+                          </div>
+                      </Col>
+                    </Row>
+                    <Row>
+                        {item}
+                    </Row>
+                </Container>
             </div>
         )
     }
