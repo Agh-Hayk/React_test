@@ -7,7 +7,8 @@ class ToDo extends Component{
 
     state = {
         task:[],
-        inpVal:''
+        inpVal:'',
+        chechArr:[]
     };
    
 
@@ -21,7 +22,7 @@ class ToDo extends Component{
         const task = [...this.state.task, newTask]
         this.setState({
             task,
-            inpVal:''
+            inpVal:'',
         })
     } 
     handleInp = (e)=>{
@@ -35,6 +36,13 @@ class ToDo extends Component{
             task:newTask
         })
     }
+    item_checked = (taskId) => {
+        const newArr = [...this.state.chechArr]
+        newArr.push(taskId)
+        this.setState({
+            chechArr:newArr
+        })
+    }
     
     render(){   
         const {task} = this.state;
@@ -42,6 +50,7 @@ class ToDo extends Component{
             return (
                 <Col key={item._id} xs={12} sm={6} md={4} lg={3} xl={3}>
                     <div className={style.new_item}>
+                        <input type="checkbox" className={style.item_checkbox} onChange={()=>this.item_checked(item._id)}/>
                         <h3>{item.title}</h3>
                         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed, porro?</p>
                         <button className={style.spanRed} data-name={index} onClick={()=>this.deleteTask(item._id)}>x</button>
