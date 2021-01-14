@@ -1,4 +1,4 @@
-import ToDo from '../src/components/Homework8,9/ToDo' 
+import ToDo from '../src/components/ToDo/ToDo' 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
