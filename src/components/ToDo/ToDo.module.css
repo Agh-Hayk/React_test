@@ -9,13 +9,20 @@
     border-radius: 7px 0 0 7px;
     border: 1px solid #a09f9f;
 }
-.ToDo button{
+.search_btn{
     padding: 11px;
     border: none;
     background: green;
     color: white;
     border-radius: 0 7px 7px 0;
     outline: none !important;
+    cursor: pointer;
+}
+.removeSelected_btn{
+    padding: 11px;
+    background: red;
+    color: white;
+    border-radius: 7px;
     cursor: pointer;
 }
 .spanRed{
