@@ -1,0 +1,13 @@
+.searchItem{
+    display: flex;
+    justify-content: center;
+}
+.search_btn{
+    padding: 11px;
+    border: none;
+    background: green;
+    color: white;
+    border-radius: 0 7px 7px 0;
+    outline: none !important;
+    cursor: pointer;
+}

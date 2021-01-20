@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import style from './task.module.css'
+import PropTypes from 'prop-types'
 
 class Task extends Component {
 
@@ -29,5 +30,13 @@ class Task extends Component {
         )
     }
 }
+
+Task.propTypes = {
+    data: PropTypes.object.isRequired,
+    itemToggle: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired
+}
+
 
 export default Task

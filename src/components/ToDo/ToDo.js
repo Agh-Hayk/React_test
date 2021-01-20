@@ -1,34 +1,24 @@
 import React, { Component } from 'react'
 import style from './ToDo.module.css'
-import idGenerator from '../../helpers/idGenerator'
 import { Container, Row, Col, Button } from 'react-bootstrap'
-import Task from './Task/Task'
+import Task from '../Task/Task'
+import NewTask from '../NewTask/NewTask'
+import Confirm from '../Confirm'
 
 class ToDo extends Component {
 
     state = {
         task: [],
-        inpVal: '',
-        chechArr: new Set()
+        chechArr: new Set(),
+        showConfirm:false
     };
 
 
-    addLi = () => {
-        const inpVal = this.state.inpVal.trim()
-        if (!inpVal) { return }
-        const newTask = {
-            _id: idGenerator(),
-            title: inpVal
-        }
+    addLi = (newTask) => {
+
         const task = [...this.state.task, newTask]
         this.setState({
             task,
-            inpVal: '',
-        })
-    }
-    handleInp = (e) => {
-        this.setState({
-            inpVal: e.target.value
         })
     }
     deleteTask = (taskId) => {
@@ -61,18 +51,19 @@ class ToDo extends Component {
 
         this.setState({
             task: newTasks,
-            chechArr: new Set()
+            chechArr: new Set(),
+            showConfirm:false
         })
     }
 
-    handleKeyEnter = (e) => {
-        if (e.key === "Enter") {
-            this.addLi()
-        }
+    toggleConfirm = () => {
+        this.setState({
+            showConfirm:!this.state.showConfirm
+        })
     }
 
     render() {
-        const { task, chechArr } = this.state;
+        const { task, chechArr, showConfirm } = this.state;
         const item = task.map((item, index) => {
             return (
                 <Col key={item._id} xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -90,26 +81,29 @@ class ToDo extends Component {
                 <Container>
                     <Row className="justify-content-center mb-3">
                         <Col xs={12} lg={6} xl={6}>
-                            <div className={style.searchItem}>
-                                <input
-                                    onChange={this.handleInp}
-                                    onKeyDown={this.handleKeyEnter}
-                                    disabled={!!chechArr.size}
-                                    type="text"
-                                    placeholder="text"
-                                    value={this.state.inpVal}
-                                />
-                                <button className={style.search_btn} onClick={this.addLi} disabled={!!chechArr.size}>ok</button>
-                            </div>
+                            <NewTask
+                                disabled={!!chechArr.size}
+                                onAdd={this.addLi}
+                            />
                         </Col>
                     </Row>
                     <Row>
                         {item}
                     </Row>
                     <Row>
-                        <Button variant="danger" onClick={this.removeSelected} disabled={!chechArr.size}>Delete selected</Button>
+                        <Button
+                            variant="danger"
+                            onClick={this.toggleConfirm}
+                            disabled={!chechArr.size}>
+                            Delete selected
+                        </Button>
                     </Row>
                 </Container>
+                {showConfirm && <Confirm 
+                    onClose = {this.toggleConfirm}
+                    onConfirm = {this.removeSelected}
+                    count = {chechArr.size}
+                />}
             </div>
         )
     }
