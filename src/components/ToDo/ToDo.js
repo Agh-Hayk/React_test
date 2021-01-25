@@ -8,7 +8,7 @@ class ToDo extends Component{
     state = {
         task:[],
         inpVal:'',
-        chechArr:new Set()
+        checkArr:new Set()
     };
    
 
@@ -37,22 +37,22 @@ class ToDo extends Component{
         })
     }
     item_checked = (taskId) => {
-        const newArr = new Set(this.state.chechArr) 
+        const newArr = new Set(this.state.checkArr) 
         if(newArr.has(taskId)){
             newArr.delete(taskId)
         }else{
             newArr.add(taskId)
         }
         this.setState({
-            chechArr:newArr
+            checkArr:newArr
         })
     }
     
     removeSelected = () =>{
-        const {chechArr} = this.state
+        const {checkArr} = this.state
         const task = [...this.state.task]
         const newTasks = task.filter((task)=>{
-            if(chechArr.has(task._id)){
+            if(checkArr.has(task._id)){
                 return false
             }   
             return true
@@ -60,7 +60,7 @@ class ToDo extends Component{
 
         this.setState({
             task:newTasks,
-            chechArr:new Set()
+            checkArr:new Set()
         })
     }
 
@@ -71,7 +71,7 @@ class ToDo extends Component{
     }
 
     render(){   
-        const {task,chechArr} = this.state;
+        const {task,checkArr} = this.state;
         const item = task.map((item,index)=>{
             return (
                 <Col key={item._id} xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -79,7 +79,7 @@ class ToDo extends Component{
                         <input type="checkbox" className={style.item_checkbox} onChange={()=>this.item_checked(item._id)}/>
                         <h3>{item.title}</h3>
                         <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed, porro?</p>
-                        <button className={style.spanRed} disabled={!!chechArr.size} data-name={index} onClick={()=>this.deleteTask(item._id)}>x</button>
+                        <button className={style.spanRed} disabled={!!checkArr.size} data-name={index} onClick={()=>this.deleteTask(item._id)}>x</button>
                     </div>
                 </Col>
             )
@@ -93,12 +93,12 @@ class ToDo extends Component{
                             <input 
                                 onChange={this.handleInp} 
                                 onKeyDown={this.handleKeyEnter}
-                                disabled={!!chechArr.size} 
+                                disabled={!!checkArr.size} 
                                 type="text" 
                                 placeholder="text" 
                                 value={this.state.inpVal}
                             />
-                            <button className={style.search_btn} onClick={this.addLi} disabled={!!chechArr.size}>ok</button>
+                            <button className={style.search_btn} onClick={this.addLi} disabled={!!checkArr.size}>ok</button>
                           </div>
                       </Col>
                     </Row>
@@ -106,7 +106,7 @@ class ToDo extends Component{
                         {item}
                     </Row>
                     <Row>
-                    <Button variant="danger" onClick={this.removeSelected} disabled={!chechArr.size}>Delete selected</Button>
+                    <Button variant="danger" onClick={this.removeSelected} disabled={!checkArr.size}>Delete selected</Button>
                     </Row>
                 </Container>
             </div>
