@@ -8,7 +8,7 @@ class ToDo extends Component{
     state = {
         task:[],
         inpVal:'',
-        chechArr:[]
+        checkArr:[]
     };
    
 
@@ -37,10 +37,10 @@ class ToDo extends Component{
         })
     }
     item_checked = (taskId) => {
-        const newArr = [...this.state.chechArr]
+        const newArr = [...this.state.checkArr]
         newArr.push(taskId)
         this.setState({
-            chechArr:newArr
+            checkArr:newArr
         })
     }
     
