@@ -25,20 +25,7 @@
     border-radius: 7px;
     cursor: pointer;
 }
-.spanRed{
-    color:white !important;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0 !important;
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: red !important;
-    color: white;
-    border-radius:7px !important;
-    outline: none !important;
-    cursor: pointer;
-}
+
 li{
     border-bottom: 1px solid rgb(218, 218, 218);
     padding-bottom: 5px;
@@ -47,17 +34,8 @@ li{
     display: flex;
     justify-content: space-between;
 }
-.new_item{
-    border: 1px solid #cccccc59;
-    border-radius: 7px;
-    padding: 15px;
-    margin: 10px 0;
-}
+
 .searchItem{
     display: flex;
     justify-content: center;
-}
-.item_checkbox{
-    width: 15px !important;
-    float: right;
 }
