@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import idGenerator from '../../helpers/idGenerator'
-import style from './newTask.module.css'
+// import style from './newTask.module.css'
 import PropTypes from 'prop-types'
+import {Modal, Button, FormControl} from 'react-bootstrap'
 
 class NewTask extends Component {
 
@@ -10,9 +11,10 @@ class NewTask extends Component {
         description: ''
     }
 
-    handleInp = (e) => {
+    handleInp = (event) => {
+        const {name, value} = event.target
         this.setState({
-            title: e.target.value
+            [name]: value
         })
     }
 
@@ -34,37 +36,55 @@ class NewTask extends Component {
             description
         }
 
-        this.props.onAdd(newTask)
-        this.setState({
-            title: '',
-            description: ''
-        })
+        this.props.onAdd(newTask) 
     }
 
     render() {
-
-        const { title } = this.state
-        const { disabled } = this.props
+        const { onClose } = this.props
 
         return (
-            <div className={style.searchItem}>
-                <input
+
+            <Modal
+            show={true}
+            onHide={onClose}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                   Add new Task
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <FormControl   
                     onChange={this.handleInp}
-                    onKeyDown={this.handleKeyEnter}
-                    disabled={disabled}
+                    name='title'
+                    onKeyPress={this.handleKeyEnter}
                     type="text"
-                    placeholder="text"
-                    value={title}
+                    placeholder="Title"
+                    className="mb-3"
                 />
-                <button className={style.search_btn} onClick={this.handleSubmit} disabled={disabled}>ok</button>
-            </div>
+                <FormControl
+                    as="textarea" 
+                    rows={4} 
+                    placeholder="Description"
+                    onChange={this.handleInp}
+                    name='description'
+                />
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={this.handleSubmit} variant="success">Add</Button>
+                <Button onClick={onClose}>Cancel</Button>
+            </Modal.Footer>
+        </Modal>
         )
     }
 }
 
 NewTask.propTypes = {
-    disabled: PropTypes.bool.isRequired,
-    onAdd: PropTypes.func.isRequired
+    onAdd: PropTypes.func.isRequired,
+    onClose:PropTypes.func.isRequired
 }
 
 export default NewTask

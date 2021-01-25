@@ -9,8 +9,9 @@ class ToDo extends Component {
 
     state = {
         task: [],
-        chechArr: new Set(),
-        showConfirm:false
+        checkArr: new Set(),
+        showConfirm: false,
+        openNewTaskModal:false
     };
 
 
@@ -19,6 +20,7 @@ class ToDo extends Component {
         const task = [...this.state.task, newTask]
         this.setState({
             task,
+            openNewTaskModal:false
         })
     }
     deleteTask = (taskId) => {
@@ -28,22 +30,22 @@ class ToDo extends Component {
         })
     }
     item_checked = (taskId) => {
-        const newArr = new Set(this.state.chechArr)
+        const newArr = new Set(this.state.checkArr)
         if (newArr.has(taskId)) {
             newArr.delete(taskId)
         } else {
             newArr.add(taskId)
         }
         this.setState({
-            chechArr: newArr
+            checkArr: newArr
         })
     }
 
     removeSelected = () => {
-        const { chechArr } = this.state
+        const { checkArr } = this.state
         const task = [...this.state.task]
         const newTasks = task.filter((task) => {
-            if (chechArr.has(task._id)) {
+            if (checkArr.has(task._id)) {
                 return false
             }
             return true
@@ -51,19 +53,38 @@ class ToDo extends Component {
 
         this.setState({
             task: newTasks,
-            chechArr: new Set(),
-            showConfirm:false
+            checkArr: new Set(),
+            showConfirm: false
         })
     }
 
     toggleConfirm = () => {
         this.setState({
-            showConfirm:!this.state.showConfirm
+            showConfirm: !this.state.showConfirm
+        })
+    }
+
+    selectAll = () => {
+        const taskIds = this.state.task.map((task) => task._id)
+        this.setState({
+            checkArr: new Set(taskIds)
+        })
+    }
+
+    deSelectAll = () => {
+        this.setState({
+            checkArr: new Set()
+        })
+    }
+
+    toggleNewTaskModal = () => {
+        this.setState({
+            openNewTaskModal: !this.state.openNewTaskModal
         })
     }
 
     render() {
-        const { task, chechArr, showConfirm } = this.state;
+        const { task, checkArr, showConfirm, openNewTaskModal } = this.state;
         const item = task.map((item, index) => {
             return (
                 <Col key={item._id} xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -71,7 +92,8 @@ class ToDo extends Component {
                         data={item}
                         itemToggle={this.item_checked}
                         onDelete={this.deleteTask}
-                        disabled={!!chechArr.size}
+                        disabled={!!checkArr.size}
+                        selected={checkArr.has(item._id)}
                     />
                 </Col>
             )
@@ -79,31 +101,58 @@ class ToDo extends Component {
         return (
             <div className={style.ToDo}>
                 <Container>
-                    <Row className="justify-content-center mb-3">
-                        <Col xs={12} lg={6} xl={6}>
-                            <NewTask
-                                disabled={!!chechArr.size}
-                                onAdd={this.addLi}
-                            />
+                    <Row>
+                        <Col className="col-2 d-flex justify-content-center">
+                            <Button
+                                variant="primary"
+                                onClick={this.toggleNewTaskModal}
+                            >
+                                Add new Task
+                           </Button>
+                        </Col>
+                        <Col className="col-2 d-flex justify-content-center">
+                            <Button
+                                variant="warning"
+                                onClick={this.selectAll}
+                            >
+                                Select All
+                            </Button>
+                        </Col>
+                        <Col className="col-2 d-flex justify-content-center">
+                            <Button
+                                variant="warning"
+                                onClick={this.deSelectAll}
+                            >
+                                Deselect All
+                            </Button>
+                        </Col>
+                        <Col className="col-2 d-flex justify-content-center">
+                            <Button
+                                variant="danger"
+                                onClick={this.toggleConfirm}
+                                disabled={!checkArr.size}
+                            >
+                                Delete selected
+                            </Button>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className='mt-5'>
                         {item}
                     </Row>
-                    <Row>
-                        <Button
-                            variant="danger"
-                            onClick={this.toggleConfirm}
-                            disabled={!chechArr.size}>
-                            Delete selected
-                        </Button>
-                    </Row>
                 </Container>
-                {showConfirm && <Confirm 
-                    onClose = {this.toggleConfirm}
-                    onConfirm = {this.removeSelected}
-                    count = {chechArr.size}
+
+                {showConfirm && <Confirm
+                    onClose={this.toggleConfirm}
+                    onConfirm={this.removeSelected}
+                    count={checkArr.size}
                 />}
+
+                {openNewTaskModal &&
+                    <NewTask
+                    onClose={this.toggleNewTaskModal}
+                    onAdd={this.addLi}
+                    />
+                }
             </div>
         )
     }
