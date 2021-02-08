@@ -4,6 +4,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap'
 import Task from '../Task/Task'
 import NewTask from '../NewTask/NewTask'
 import Confirm from '../Confirm'
+import EditTask from '../EditTask'
 
 class ToDo extends Component {
 
@@ -11,7 +12,8 @@ class ToDo extends Component {
         task: [],
         checkArr: new Set(),
         showConfirm: false,
-        openNewTaskModal:false
+        openNewTaskModal:false,
+        editTask:null
     };
 
 
@@ -83,8 +85,25 @@ class ToDo extends Component {
         })
     }
 
+    handleEdit = (editTask) =>{
+       this.setState({
+           editTask
+       })
+    }
+
+    handleSaveTask = (editedTask) => {
+        const tasks = this.state.task
+        const foundIndex = tasks.findIndex((task) => task._id === editedTask._id)
+        tasks[foundIndex] = editedTask
+
+        this.setState({
+            task:tasks,
+            editTask:null
+        })
+    }
+    
     render() {
-        const { task, checkArr, showConfirm, openNewTaskModal } = this.state;
+        const { task, checkArr, showConfirm, openNewTaskModal, editTask } = this.state;
         const item = task.map((item, index) => {
             return (
                 <Col key={item._id} xs={12} sm={6} md={4} lg={3} xl={3}>
@@ -94,6 +113,7 @@ class ToDo extends Component {
                         onDelete={this.deleteTask}
                         disabled={!!checkArr.size}
                         selected={checkArr.has(item._id)}
+                        onEdit={this.handleEdit}
                     />
                 </Col>
             )
@@ -153,6 +173,16 @@ class ToDo extends Component {
                     onAdd={this.addLi}
                     />
                 }
+                {
+                    editTask && 
+                    <EditTask
+                        data = {editTask}
+                        onClose = {()=>{this.handleEdit(null)}}
+                        onSave = {this.handleSaveTask}
+                    />
+                }
+                
+
             </div>
         )
     }

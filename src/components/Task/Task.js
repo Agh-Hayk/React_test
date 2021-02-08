@@ -14,7 +14,7 @@ class Task extends Component {
 
     render() {
         const item = this.props.data
-        const { disabled, onDelete, selected } = this.props
+        const { disabled, onDelete, selected, onEdit } = this.props
         return (
             <div className={`${style.new_item} ${selected ? style.selected : ""}`}>
                 <input
@@ -29,7 +29,7 @@ class Task extends Component {
                     className="m-1"
                     variant='warning'
                     disabled={disabled}
-                    onClick={() => onDelete(item._id)}
+                    onClick={() => onEdit(item)}
                 >
                 <FontAwesomeIcon icon={faEdit} />
                 </Button>
