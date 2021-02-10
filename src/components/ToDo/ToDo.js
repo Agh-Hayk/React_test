@@ -16,19 +16,98 @@ class ToDo extends Component {
         editTask:null
     };
 
+    componentDidMount(){
+        fetch('http://localhost:3001/task', {
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        .then(async (response)=>{
+    
+            const res = await response.json()
+
+            
+            if(response.status>=400 && response.status<600){
+                if(res.error){
+                    throw res.error;
+                }else{
+                    throw new Error('Something went wrong!')
+                }
+            }
+
+            this.setState({
+                task:res
+            })
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }
 
     addLi = (newTask) => {
 
-        const task = [...this.state.task, newTask]
-        this.setState({
-            task,
-            openNewTaskModal:false
+        fetch('http://localhost:3001/task', {
+            method:'POST',
+            body:JSON.stringify(newTask),
+            headers:{
+                'Content-Type':'application/json'
+            }
         })
+        .then(async (response)=>{
+    
+            const res = await response.json()
+
+            
+            if(response.status>=400 && response.status<600){
+                if(res.error){
+                    throw res.error;
+                }else{
+                    throw new Error('Something went wrong!')
+                }
+            }
+
+            const tasks = [...this.state.task, res]
+            this.setState({
+                task:tasks,
+                openNewTaskModal:false
+            })
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+       
+       
     }
     deleteTask = (taskId) => {
-        const newTask = this.state.task.filter((task) => taskId !== task._id)
-        this.setState({
-            task: newTask
+
+        fetch(`http://localhost:3001/task/${taskId}`, {
+            method:'DELETE',
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        .then(async (response)=>{
+    
+            const res = await response.json()
+
+            
+            if(response.status>=400 && response.status<600){
+                if(res.error){
+                    throw res.error;
+                }else{
+                    throw new Error('Something went wrong!')
+                }
+            }
+
+            const newTask = this.state.task.filter((task) => taskId !== task._id)
+            this.setState({
+                task: newTask 
+            })
+         
+        })
+        .catch((error)=>{
+            console.log(error)
         })
     }
     item_checked = (taskId) => {

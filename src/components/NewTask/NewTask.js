@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import idGenerator from '../../helpers/idGenerator'
 // import style from './newTask.module.css'
 import PropTypes from 'prop-types'
 import {Modal, Button, FormControl} from 'react-bootstrap'
@@ -31,7 +30,6 @@ class NewTask extends Component {
 
         if (!title) { return }
         const newTask = {
-            _id: idGenerator(),
             title,
             description
         }
