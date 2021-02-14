@@ -46,7 +46,6 @@ class ToDo extends Component {
     }
 
     addLi = (newTask) => {
-
         fetch('http://localhost:3001/task', {
             method:'POST',
             body:JSON.stringify(newTask),
@@ -123,19 +122,48 @@ class ToDo extends Component {
     }
 
     removeSelected = () => {
-        const { checkArr } = this.state
-        const task = [...this.state.task]
-        const newTasks = task.filter((task) => {
-            if (checkArr.has(task._id)) {
-                return false
-            }
-            return true
-        })
+        const {task, checkArr } = this.state;
+        const body = {
+            tasks:[...checkArr]
+        }
 
-        this.setState({
-            task: newTasks,
-            checkArr: new Set(),
-            showConfirm: false
+
+        fetch(`http://localhost:3001/task`, {
+            method:'PATCH',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(body)
+        })
+        .then(async (response)=>{
+    
+            const res = await response.json()
+
+            
+            if(response.status>=400 && response.status<600){
+                if(res.error){
+                    throw res.error;
+                }else{
+                    throw new Error('Something went wrong!')
+                }
+            }
+
+            const newTasks = task.filter((task) => {
+                if (checkArr.has(task._id)) {
+                    return false
+                }
+                return true
+            })
+    
+            this.setState({
+                task: newTasks,
+                checkArr: new Set(),
+                showConfirm: false
+            })
+         
+        })
+        .catch((error)=>{
+            console.log(error)
         })
     }
 
@@ -171,14 +199,46 @@ class ToDo extends Component {
     }
 
     handleSaveTask = (editedTask) => {
-        const tasks = this.state.task
-        const foundIndex = tasks.findIndex((task) => task._id === editedTask._id)
-        tasks[foundIndex] = editedTask
 
-        this.setState({
-            task:tasks,
-            editTask:null
+        fetch(`http://localhost:3001/task/${editedTask._id}`, {
+            method:'PUT',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(editedTask)
         })
+        .then(async (response)=>{
+    
+            const res = await response.json()
+
+            
+            if(response.status>=400 && response.status<600){
+                if(res.error){
+                    throw res.error;
+                }else{
+                    throw new Error('Something went wrong!')
+                }
+            }
+
+            const tasks = this.state.task
+            const foundIndex = tasks.findIndex((task) => task._id === editedTask._id)
+            tasks[foundIndex] = editedTask
+    
+            this.setState({
+                task:tasks,
+                editTask:null
+            })
+         
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+
+
+
+
+
+       
     }
     
     render() {

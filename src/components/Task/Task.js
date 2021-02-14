@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import {Button} from 'react-bootstrap'
+import {formatDate} from '../../helpers/utils'
 
 class Task extends Component {
 
@@ -24,7 +25,8 @@ class Task extends Component {
                     checked={selected}
                 />
                 <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                <p><strong>Description: </strong> {item.description}</p>
+                <p><strong>Date: </strong> {formatDate(item.date)}</p>
                 <Button
                     className="m-1"
                     variant='warning'
