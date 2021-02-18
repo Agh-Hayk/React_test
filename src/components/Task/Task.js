@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import {Button} from 'react-bootstrap'
 import {formatDate} from '../../helpers/utils'
+import {Link} from 'react-router-dom'
 
 class Task extends Component {
 
@@ -24,7 +25,7 @@ class Task extends Component {
                     onChange={this.handleChange}
                     checked={selected}
                 />
-                <h3>{item.title}</h3>
+                <Link to='/task'><h3>{item.title}</h3></Link>
                 <p><strong>Description: </strong> {item.description}</p>
                 <p><strong>Date: </strong> {formatDate(item.date)}</p>
                 <Button

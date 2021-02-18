@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import style from './ToDo.module.css'
 import { Container, Row, Col, Button } from 'react-bootstrap'
-import Task from '../Task/Task'
-import NewTask from '../NewTask/NewTask'
-import Confirm from '../Confirm'
-import EditTask from '../EditTask'
+import Task from '../../Task/Task'
+import NewTask from '../../NewTask/NewTask'
+import Confirm from '../../Confirm'
+import EditTask from '../../EditTask'
 
 class ToDo extends Component {
 
@@ -260,7 +260,7 @@ class ToDo extends Component {
         return (
             <div className={style.ToDo}>
                 <Container>
-                    <Row>
+                    <Row className="d-flex justify-content-center">
                         <Col className="col-2 d-flex justify-content-center">
                             <Button
                                 variant="primary"

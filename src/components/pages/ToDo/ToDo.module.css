@@ -1,6 +1,7 @@
 .ToDo{
     /* width: 400px; */
-    margin: 0 auto;
+    margin: 60px auto;
+    justify-content: space-around;
 }  
 .ToDo input{
     outline: none;
@@ -26,4 +27,3 @@ li{
     display: flex;
     justify-content: space-between;
 }
-
