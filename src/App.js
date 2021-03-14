@@ -35,7 +35,7 @@ function App() {
             exact={true}
           />
           <Route 
-            path='/task'
+            path='/task/:taskId'
             component={SingleTask}
             exact={true}
           />

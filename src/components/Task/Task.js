@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import {Button} from 'react-bootstrap'
-import {formatDate} from '../../helpers/utils'
+import {formatDate, textTruncate} from '../../helpers/utils'
 import {Link} from 'react-router-dom'
 
 class Task extends Component {
@@ -25,8 +25,8 @@ class Task extends Component {
                     onChange={this.handleChange}
                     checked={selected}
                 />
-                <Link to='/task'><h3>{item.title}</h3></Link>
-                <p><strong>Description: </strong> {item.description}</p>
+                <Link to={`/task/${item._id}`}><h3>{textTruncate(item.title,25)}</h3></Link>
+                <p><strong>Description: </strong> {textTruncate(item.description, 60)}</p>
                 <p><strong>Date: </strong> {formatDate(item.date)}</p>
                 <Button
                     className="m-1"

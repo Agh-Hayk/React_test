@@ -233,12 +233,6 @@ class ToDo extends Component {
         .catch((error)=>{
             console.log(error)
         })
-
-
-
-
-
-       
     }
     
     render() {
