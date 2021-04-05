@@ -6,7 +6,7 @@ import NewTask from '../../NewTask/NewTask'
 import Confirm from '../../Confirm'
 import EditTask from '../../EditTask'
 import { connect } from 'react-redux'
-import {getTasks, deleteTask, deleteTasks} from '../../../store/actions'
+import {getTasks, deleteTask, deleteTasks,} from '../../../store/actions'
 
 class ToDo extends Component {
 
@@ -34,6 +34,13 @@ class ToDo extends Component {
             this.setState({
                 checkArr: new Set(),
                 showConfirm: false,
+            })
+            return
+        }
+
+        if(!prevProps.editTaskSuccess && this.props.editTaskSuccess){
+            this.setState({
+                editTask: null
             })
             return
         }
@@ -200,7 +207,7 @@ class ToDo extends Component {
                     <EditTask
                         data={editTask}
                         onClose={() => { this.handleEdit(null) }}
-                        onSave={this.handleSaveTask}
+                        //onSave={this.handleSaveTask}
                     />
                 }
 
@@ -214,7 +221,8 @@ const mapStateToProps = (state) => {
     return {
         task: state.task,
         addTaskSuccess: state.addTaskSuccess,
-        deleteTaskSuccess:state.deleteTaskSuccess
+        deleteTaskSuccess:state.deleteTaskSuccess,
+        editTaskSuccess:state.editTaskSuccess
     }
 }
 
