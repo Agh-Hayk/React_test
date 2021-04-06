@@ -5,7 +5,9 @@ const defaultState = {
   addTaskSuccess:false,
   deleteTaskSuccess:false,
   editTaskSuccess:false,
-  loading:false
+  loading:false,
+  successMassage:null,
+  errorMassage:null
 }
 
 export default function reduser(state=defaultState, action){
@@ -17,7 +19,17 @@ export default function reduser(state=defaultState, action){
           loading:true,
           addTaskSuccess:false,
           deleteTaskSuccess:false,
-          editTaskSuccess:false
+          editTaskSuccess:false,
+          successMassage:null,
+          errorMassage:null
+        };
+      } 
+
+      case actionTypes.ERROR:{
+        return{
+          ...state,
+          loading:false,
+          errorMassage:action.error
         };
       } 
 
@@ -35,7 +47,8 @@ export default function reduser(state=defaultState, action){
           ...state,
           task:tasks,
           addTaskSuccess:true,
-          loading:false
+          loading:false,
+          successMassage:'Task create successfully!!!'
         };
       } 
 
@@ -44,7 +57,8 @@ export default function reduser(state=defaultState, action){
         return{
           ...state,
           task:newTask,
-          loading:false
+          loading:false,
+          successMassage:'Task deleted successfully!!!'
         };
       }
 
@@ -59,7 +73,8 @@ export default function reduser(state=defaultState, action){
           ...state,
           task:newTasks,
           deleteTaskSuccess:true,
-          loading:false
+          loading:false,
+          successMassage:'Tasks deleted successfully!!!'
         };
       }
 
@@ -72,7 +87,8 @@ export default function reduser(state=defaultState, action){
           ...state,
           task:tasks,
           editTaskSuccess:true,
-          loading:false
+          loading:false,
+          successMassage:'Task edited successfully!!!'
         };
       }
 

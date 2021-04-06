@@ -9,8 +9,8 @@ export default function NavMenu(){
             <Navbar.Brand href="#home">Navbar</Navbar.Brand>
             <Nav className="mr-auto">
                 <NavLink activeClassName={style.active} to="/" exact>Home</NavLink>
-                <NavLink activeClassName={style.active} to="/about" exact>About us</NavLink>
-                <NavLink activeClassName={style.active} to="/contact" exact>Contact</NavLink>
+                <NavLink activeClassName={style.active} style={{marginLeft:15}} to="/about" exact>About us</NavLink>
+                <NavLink activeClassName={style.active} style={{marginLeft:15}} to="/contact" exact>Contact</NavLink>
             </Nav>
         </Navbar>
     )

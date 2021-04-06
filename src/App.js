@@ -9,8 +9,39 @@ import SingleTask from './components/pages/SingleTask/SingleTask'
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 import Spinner from './components/Spinner/Spinner'
 import {connect} from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect } from 'react';
 
-function App({loading}) {
+function App({loading, successMassage, errorMassage}) {
+
+  // toast('success')
+
+  useEffect(()=>{
+    if(successMassage){
+      toast.success(successMassage, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        });
+    }
+
+    if(errorMassage){
+      toast.error(errorMassage, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        });
+    }
+
+  },[successMassage, errorMassage])
+ 
   return (
     <div className="App">
       <BrowserRouter>
@@ -50,13 +81,16 @@ function App({loading}) {
         </Switch>
       </BrowserRouter>
       {loading && <Spinner />} 
+      <ToastContainer />
     </div>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-      loading: state.loading
+      loading: state.loading,
+      successMassage:state.successMassage,
+      errorMassage:state.errorMassage
   }
 }
 
